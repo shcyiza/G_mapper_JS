@@ -125,8 +125,8 @@ const G_mapper = {
         //it checks if google maps API was already loaded correctly
         //and initialize the render of the calution as well as the render of the map
         var self = this
-        var gmaps_api_script = document.querySelector("script[src^='https://maps.googleapis.com/maps/api/js']")
             //one way to master the this keyword (=contextual object)
+        var gmaps_api_script = document.querySelector("script[src^='https://maps.googleapis.com/maps/api/js']")
         if (gmaps_api_script && gmaps_api_script !== G_.gmaps_api_el) {
             if (gmaps_api_script.src.indexOf("&libraries=places") !== -1) {
                 this.initMap();
