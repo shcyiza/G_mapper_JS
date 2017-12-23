@@ -1,0 +1,34 @@
+<html>
+
+<head>
+    <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+    <link type="text/css" rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div>
+    </div>
+    <form>
+        point A: <input type="text" type="text" name="FirstName" value="Rue du conseil 25, 1050 Ixelles" id="gmapper-input-a" data-gmaps-key="AIzaSyAvb2OQWipY6XeXhNeHRSgFl5xT-_Z8_rg" data-gmapper-input>
+        <br> Point B: <input type="text" type="text" name="LastName" value="Rue Du Duc 11, 1150 Bruxelles" id="gmapper-input-b" data-gmapper-input>
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <div id="gmapper-a" data-gmapper-render-for="gmapper-input-a">
+        <div id="distance" data-gmapper-endpoint="Langestraat 78, 9300 Aalst">
+        </div>
+        <div id="map">
+        </div>
+    </div>
+
+    <div id="gmapper-b" data-gmapper-render-for="gmapper-input-b">
+        <div id="distance" data-gmapper-endpoint="Langestraat 78, 9300 Aalst">
+        </div>
+        <div id="map">
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+
+</html>
