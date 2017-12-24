@@ -2,13 +2,13 @@
 //Get the distance, duration of the journey, and the maps from a variable to a reference point, the variable being the input in the form and the reference point is defined in the data attributes of your map element.
 
 
-const G_ = {
+const _G_M_ = {
     gmaps_key: "",
     gmaps_api_el: null,
     no_g_places_exeption: "G_mapper depends on the Google Place Library to work, add '&libraries=places' at the end of the src attributes of your google maps API script tag. see https://developers.google.com/maps/documentation/javascript/places"
 }
 
-G_.calculateAndDisplayRoute = function(Obj, directionsService, directionsDisplay) {
+_G_M_.calculateAndDisplayRoute = function(Obj, directionsService, directionsDisplay) {
     // This function is the one that makes all the interaction with the google API's
     directionsService.route({
         origin: Obj.getGeopointA(),
@@ -35,7 +35,7 @@ G_.calculateAndDisplayRoute = function(Obj, directionsService, directionsDisplay
     });
 };
 
-G_.eventCallbackToThis = function(el, event, fn, contxt_obj, args) {
+_G_M_.eventCallbackToThis = function(el, event, fn, contxt_obj, args) {
     //Pollyfill so that a function called back by an occuring event
     // doesnt have the event itself as the this variable (=contextual object)
     args = args || []
@@ -44,7 +44,7 @@ G_.eventCallbackToThis = function(el, event, fn, contxt_obj, args) {
     })
 };
 
-G_.loadGmapsApi = function() {
+_G_M_.loadGmapsApi = function() {
     //this library depends on the google maps API to work.
     //this function loads for the user so he doesnt have to import it himself.
     //A key is key is still required though
@@ -56,9 +56,9 @@ G_.loadGmapsApi = function() {
     document.getElementsByTagName("head")[0].appendChild(script);
 };
 
-G_.gmapper_objects = []; //this array collects all the objects
+_G_M_.gmapper_objects = []; //this array collects all the objects
 //that are meant to interact with the DOM
-G_.gmapper_inputs = [].slice.call(document.querySelectorAll("[data-gmapper-input]"))
+_G_M_.gmapper_inputs = [].slice.call(document.querySelectorAll("[data-gmapper-input]"))
     //this array collects all the inputs fields that are meant to work with the lib
 
 
@@ -66,15 +66,15 @@ document.addEventListener("DOMContentLoaded", function() {
     //those lines wait for the DOM to be loaded to do eveything neccesary for it to work as intended
     //it look for all input fields where the data attribut "gmaper-input" is placed
     //It create all the instances of G_mapper as proto, set the google API key, and initialize everything
-    for (var x = 0; x < G_.gmapper_inputs.length; x++) {
-        G_.gmapper_objects[x] = { name: G_.gmapper_inputs[x].id };
-        Object.setPrototypeOf(G_.gmapper_objects[x], G_mapper);
-        G_.gmapper_objects[x].input_field = G_.gmapper_inputs[x];
-        G_.gmapper_objects[x].render_node = document.querySelector(
-            '[data-gmapper-render-for="' + G_.gmapper_inputs[x].id + '"]'
+    for (var x = 0; x < _G_M_.gmapper_inputs.length; x++) {
+        _G_M_.gmapper_objects[x] = { name: _G_M_.gmapper_inputs[x].id };
+        Object.setPrototypeOf(_G_M_.gmapper_objects[x], G_mapper);
+        _G_M_.gmapper_objects[x].input_field = _G_M_.gmapper_inputs[x];
+        _G_M_.gmapper_objects[x].render_node = document.querySelector(
+            '[data-gmapper-render-for="' + _G_M_.gmapper_inputs[x].id + '"]'
         );
-        G_.gmapper_objects[x].setGmapsKey();
-        G_.gmapper_objects[x].init();
+        _G_M_.gmapper_objects[x].setGmapsKey();
+        _G_M_.gmapper_objects[x].init();
     }
 });
 const G_mapper = {
@@ -102,7 +102,7 @@ const G_mapper = {
     },
     setGmapsKey: function() {
         if (this.input_field.dataset.gmapsKey !== "") {
-            G_.gmaps_key = this.input_field.dataset.gmapsKey
+            _G_M_.gmaps_key = this.input_field.dataset.gmapsKey
         }
     },
     initMap: function() {
@@ -111,7 +111,7 @@ const G_mapper = {
             var directionsService = new google.maps.DirectionsService;
             var directionsDisplay = new google.maps.DirectionsRenderer;
             directionsDisplay.setMap(new google.maps.Map(this.mapNode(), {}));
-            G_.calculateAndDisplayRoute(this, directionsService, directionsDisplay);
+            _G_M_.calculateAndDisplayRoute(this, directionsService, directionsDisplay);
         } else {
             this.distance_node.innerHTML = "<b>Remplissez-une addresse</b>";
         };
@@ -128,23 +128,23 @@ const G_mapper = {
         var self = this
             //one way to master the this keyword (=contextual object)
         var gmaps_api_script = document.querySelector("script[src^='https://maps.googleapis.com/maps/api/js']")
-        if (gmaps_api_script && gmaps_api_script !== G_.gmaps_api_el) {
+        if (gmaps_api_script && gmaps_api_script !== _G_M_.gmaps_api_el) {
             if (gmaps_api_script.src.indexOf("&libraries=places") !== -1) {
                 this.initMap();
             } else {
-                throw G_.no_g_places_exeption
+                throw _G_M_.no_g_places_exeption
             }
         } else {
-            if (!G_.gmaps_api_el) {
-                G_.loadGmapsApi();
+            if (!_G_M_.gmaps_api_el) {
+                _G_M_.loadGmapsApi();
             }
-            G_.gmaps_api_el.addEventListener("load", function() {
+            _G_M_.gmaps_api_el.addEventListener("load", function() {
                 //if our code loads the google maps API we must listen to a load event of API
                 //so the JS engine don't run the initialization before the API is loaded
                 self.initMap();
             });
         }
-        G_.eventCallbackToThis(this.input_field, "change", this.reloadMap, this); //adding an event listener
+        _G_M_.eventCallbackToThis(this.input_field, "change", this.reloadMap, this); //adding an event listener
         //to track changes in input and reload the calculaions and the map accordingly
         //it use another way to master the this keywork, see line 31 for the comments
     },
