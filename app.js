@@ -35,11 +35,12 @@ G_.calculateAndDisplayRoute = function(Obj, directionsService, directionsDisplay
     });
 };
 
-G_.onInputChange = function(input, fn, contxt_obj) {
-    //Pollyfill so that a function called by an occuring event
+G_.eventCallbackToThis = function(el, event, fn, contxt_obj, args) {
+    //Pollyfill so that a function called back by an occuring event
     // doesnt have the event itself as the this variable (=contextual object)
-    input.addEventListener("change", function() {
-        fn.call(contxt_obj);
+    args = args || []
+    el.addEventListener(event, function() {
+        fn.apply(contxt_obj, args);
     })
 };
 
@@ -143,7 +144,7 @@ const G_mapper = {
                 self.initMap();
             });
         }
-        G_.onInputChange(this.input_field, this.reloadMap, this); //adding an event listener
+        G_.eventCallbackToThis(this.input_field, "change", this.reloadMap, this); //adding an event listener
         //to track changes in input and reload the calculaions and the map accordingly
         //it use another way to master the this keywork, see line 31 for the comments
     },
