@@ -107,6 +107,10 @@ const G_mapper = {
     reloadMap: function() {
         var self = this;
         this.autocomplete.addListener('place_changed', function() {
+            //this google map api event listener is needed
+            //otherwise the JS engine don't take the autocompleted value into consideration
+            //when its reloading the calculation as the input field change
+            //and cause unaccurate and weird results this event listener fixes this
             self.distanceNode().innerHTML = "";
             self.mapNode().innerHTML = "";
             self.renderCalculation();
