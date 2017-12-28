@@ -58,25 +58,10 @@ _G_M_.loadGmapsApi = function() {
 
 _G_M_.gmapper_objects = []; //this array collects all the objects
 //that are meant to interact with the DOM
-_G_M_.gmapper_inputs = [].slice.call(document.querySelectorAll("[data-gmapper-input]"))
-    //this array collects all the inputs fields that are meant to work with the lib
+_G_M_.gmapper_inputs = [];
+//this array collects all the inputs fields that are meant to work with the lib
 
 
-document.addEventListener("DOMContentLoaded", function() {
-    //those lines wait for the DOM to be loaded to do eveything neccesary for it to work as intended
-    //it look for all input fields where the data attribut "gmaper-input" is placed
-    //It create all the instances of G_mapper as proto, set the google API key, and initialize everything
-    for (var x = 0; x < _G_M_.gmapper_inputs.length; x++) {
-        _G_M_.gmapper_objects[x] = { name: _G_M_.gmapper_inputs[x].id };
-        Object.setPrototypeOf(_G_M_.gmapper_objects[x], G_mapper);
-        _G_M_.gmapper_objects[x].input_field = _G_M_.gmapper_inputs[x];
-        _G_M_.gmapper_objects[x].render_node = document.querySelector(
-            '[data-gmapper-render-for="' + _G_M_.gmapper_inputs[x].id + '"]'
-        );
-        _G_M_.gmapper_objects[x].setGmapsKey();
-        _G_M_.gmapper_objects[x].init();
-    }
-});
 const G_mapper = {
     //The prototype on which everything relies
     input_field: "",
@@ -105,21 +90,27 @@ const G_mapper = {
             _G_M_.gmaps_key = this.input_field.dataset.gmapsKey
         }
     },
+    renderCalculation: function() {
+        var directionsService = new google.maps.DirectionsService;
+        var directionsDisplay = new google.maps.DirectionsRenderer;
+        directionsDisplay.setMap(new google.maps.Map(this.mapNode(), {}));
+        _G_M_.calculateAndDisplayRoute(this, directionsService, directionsDisplay);
+    },
     initMap: function() {
-        var autocomplete = new google.maps.places.Autocomplete(this.input_field);
+        this.autocomplete = new google.maps.places.Autocomplete(this.input_field);
         if (this.getGeopointA() !== "") {
-            var directionsService = new google.maps.DirectionsService;
-            var directionsDisplay = new google.maps.DirectionsRenderer;
-            directionsDisplay.setMap(new google.maps.Map(this.mapNode(), {}));
-            _G_M_.calculateAndDisplayRoute(this, directionsService, directionsDisplay);
+            this.renderCalculation();
         } else {
             this.distance_node.innerHTML = "<b>Remplissez-une addresse</b>";
         };
     },
     reloadMap: function() {
-        this.distanceNode().innerHTML = "";
-        this.mapNode().innerHTML = "";
-        this.initMap();
+        var self = this;
+        this.autocomplete.addListener('place_changed', function() {
+            self.distanceNode().innerHTML = "";
+            self.mapNode().innerHTML = "";
+            self.renderCalculation();
+        });
     },
     init: function() {
         //this is the methode that does the first initialization
@@ -149,3 +140,20 @@ const G_mapper = {
         //it use another way to master the this keywork, see line 31 for the comments
     },
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    _G_M_.gmapper_inputs = [].slice.call(document.querySelectorAll("[data-gmapper-input]"));
+    //those lines wait for the DOM to be loaded to do eveything neccesary for it to work as intended
+    //it look for all input fields where the data attribut "gmaper-input" is placed
+    //It create all the instances of G_mapper as proto, set the google API key, and initialize everything
+    for (var x = 0; x < _G_M_.gmapper_inputs.length; x++) {
+        _G_M_.gmapper_objects[x] = { name: _G_M_.gmapper_inputs[x].id };
+        Object.setPrototypeOf(_G_M_.gmapper_objects[x], G_mapper);
+        _G_M_.gmapper_objects[x].input_field = _G_M_.gmapper_inputs[x];
+        _G_M_.gmapper_objects[x].render_node = document.querySelector(
+            '[data-gmapper-render-for="' + _G_M_.gmapper_inputs[x].id + '"]'
+        );
+        _G_M_.gmapper_objects[x].setGmapsKey();
+        _G_M_.gmapper_objects[x].init();
+    }
+});
