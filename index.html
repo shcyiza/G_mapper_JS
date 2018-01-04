@@ -1,36 +1,36 @@
 <html>
 
 <head>
-    <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
-    <link type="text/css" rel="stylesheet" href="style.css">
-    <script src="app.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+  <link type="text/css" rel="stylesheet" href="style.css">
+  <script src="app.js"></script>
 </head>
 
 <body>
-    <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
-    <form>
-        <h1>à quelle distance vos etudiants habite de BeCode?</h1>
-        Etudiant A: <input type="text" type="text" value="Rue du conseil 25, 1050 Ixelles" id="gmapper-input-a" data-gmaps-key="AIzaSyAvb2OQWipY6XeXhNeHRSgFl5xT-_Z8_rg" data-gmapper-input>
-        <br> Etudiant B: <input type="text" type="text" value="Rue Du Duc 11, 1150 Bruxelles" id="gmapper-input-b" data-gmapper-input>
-        <br>
-    </form>
-    <hr>
+  <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+  <form>
+    <h1>à quelle distance vos etudiants habite de BeCode?</h1>
+    Etudiant A: <input type="text" type="text" value="Rue du conseil 25, 1050 Ixelles" id="gmapper-input-a" data-gmaps-key="AIzaSyAvb2OQWipY6XeXhNeHRSgFl5xT-_Z8_rg" data-gmapper-input>
+    <br> Etudiant B: <input type="text" type="text" value="Rue de trone 12, 1000 bruxelles" id="gmapper-input-b" data-gmapper-input>
+    <br>
+  </form>
+  <hr>
 
-    <div class="halfscreen left" id="gmapper-a" data-gmapper-render-for="gmapper-input-a">
-        <h2>L'étudiant A habite à</h2>
-        <div id="distance" data-gmapper-endpoint="Cantersteen 10, 1000 Bruxelles">
-        </div>
-        <div id="map">
-        </div>
+  <div class="halfscreen left" id="gmapper-a" data-gmapper-render-for="gmapper-input-a">
+    <h2>L'étudiant A habite à</h2>
+    <div id="distance" data-gmapper-endpoint="Cantersteen 10, 1000 Bruxelles">
     </div>
+    <div id="map">
+    </div>
+  </div>
 
-    <div class="halfscreen right" id="gmapper-b" data-gmapper-render-for="gmapper-input-b">
-        <h2>L'étudiant B habite à</h2>
-        <div id="distance" data-gmapper-endpoint="Cantersteen 10, 1000 Bruxelles">
-        </div>
-        <div id="map">
-        </div>
+  <div class="halfscreen right" id="gmapper-b" data-gmapper-render-for="gmapper-input-b">
+    <h2>L'étudiant B habite à</h2>
+    <div id="distance" data-gmapper-endpoint="Cantersteen 10, 1000 Bruxelles">
     </div>
+    <div id="map">
+    </div>
+  </div>
 </body>
 
 </html>
