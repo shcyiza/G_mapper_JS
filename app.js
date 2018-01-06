@@ -1,7 +1,7 @@
 //this librarie was made to get info from gmaps api
 //Get the distance, duration of the journey, and the maps from a variable to a reference point, the variable being the input in the form and the reference point is defined in the data attributes of your map element.
 
-(function(global) {
+(function(global, gmaps_api_script) {
   const _G_M_ = {
     gmaps_key: "",
     gmaps_api_el: null,
@@ -97,7 +97,6 @@
       if (this.input_field.value !== "") {
         Fn.apply(this);
       } else {
-        console.log(this);
         this.mapNode().innerHTML = "";
         this.distanceNode().innerHTML = _G_M_.empty_field_el;
       };
@@ -178,4 +177,4 @@
       _G_M_.gmapper_objects[x].init();
     }
   });
-})(this);
+})(window);
